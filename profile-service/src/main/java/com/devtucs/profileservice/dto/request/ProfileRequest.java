@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProfileRequest {
+    String userId;
     String fullName;
     LocalDate dob;
     @Email(message = "INVALID_EMAIL")

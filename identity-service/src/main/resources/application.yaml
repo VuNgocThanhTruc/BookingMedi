@@ -12,6 +12,12 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  cloud:
+    openfeign:
+      client:
+        config:
+          feignName:
+            url: "http://localhost:8081/profile"
 
   security:
     oauth2:

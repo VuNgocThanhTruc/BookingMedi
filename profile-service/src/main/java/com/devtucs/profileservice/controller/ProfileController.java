@@ -7,6 +7,8 @@ import com.devtucs.profileservice.service.ProfileService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProfileController {
+    private static final Logger log = LoggerFactory.getLogger(ProfileController.class);
     ProfileService profileService;
 
     @GetMapping("/{userId}")
@@ -25,7 +28,6 @@ public class ProfileController {
 
     @PostMapping
     public ApiResponse<ProfileResponse> create(@RequestBody ProfileRequest request){
-
         return ApiResponse.<ProfileResponse>builder()
                 .result(profileService.create(request))
                 .build();

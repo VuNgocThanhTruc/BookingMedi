@@ -3,17 +3,22 @@ package com.devtucs.identityservice.service;
 import com.devtucs.identityservice.dto.request.UserCreationRequest;
 import com.devtucs.identityservice.dto.request.UserRolesUpdateRequest;
 import com.devtucs.identityservice.dto.request.UserUpdateRequest;
+import com.devtucs.identityservice.dto.request.client.ProfileRequest;
 import com.devtucs.identityservice.dto.response.UserResponse;
 import com.devtucs.identityservice.entity.User;
 import com.devtucs.identityservice.entity.Role;
 import com.devtucs.identityservice.exception.AppException;
 import com.devtucs.identityservice.exception.ErrorCodeConstant;
 import com.devtucs.identityservice.mapper.UserMapper;
+import com.devtucs.identityservice.mapper.openFeign.ProfileMapper;
 import com.devtucs.identityservice.repository.RoleRepository;
 import com.devtucs.identityservice.repository.UserRepository;
+import com.devtucs.identityservice.repository.openFeign.ProfileClient;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,9 +35,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
     UserRepository userRepository;
     RoleRepository roleRepository;
     UserMapper userMapper;
+    ProfileClient profileClient;
+    ProfileMapper profileMapper;
 
     public UserResponse createUser(UserCreationRequest request) {
 
@@ -45,7 +53,7 @@ public class UserService {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        Role role  = new Role();
+        Role role = new Role();
         role.setName(com.devtucs.identityservice.enums.Role.USER.name());
 
         HashSet<Role> roles = new HashSet<>();
@@ -53,7 +61,14 @@ public class UserService {
 
         user.setRoles(roles);
 
-        return userMapper.toUserResponse(userRepository.save(user));
+        user = userRepository.save(user);
+
+        ProfileRequest profileRequest = profileMapper.toProfileCreationReq(request);
+        profileRequest.setUserId(user.getId());
+
+        profileClient.createProfile(profileRequest);
+
+        return userMapper.toUserResponse(user);
     }
 
     public UserResponse updateUser(String userId, UserUpdateRequest request) {

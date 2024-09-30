@@ -3,6 +3,8 @@ package com.devtucs.profileservice.service;
 import com.devtucs.profileservice.dto.request.ProfileRequest;
 import com.devtucs.profileservice.dto.response.ProfileResponse;
 import com.devtucs.profileservice.entity.Profile;
+import com.devtucs.profileservice.exception.AppException;
+import com.devtucs.profileservice.exception.ErrorCodeConstant;
 import com.devtucs.profileservice.mapper.ProfileMapper;
 import com.devtucs.profileservice.repository.ProfileRepository;
 import lombok.AccessLevel;
@@ -19,31 +21,32 @@ public class ProfileService {
     ProfileRepository profileRepository;
     ProfileMapper profileMapper;
 
-    public ProfileResponse getProfile(String request){
-        Profile profile = profileRepository.findById(request).orElseThrow(() -> new RuntimeException("Profile not found"));
+    public ProfileResponse getProfile(String request) {
+        Profile profile = profileRepository.findById(request)
+                .orElseThrow(() -> new AppException(ErrorCodeConstant.PROFILE_NOT_FOUND));
 
         return profileMapper.toProfileResponse(profile);
     }
 
-    public ProfileResponse create(ProfileRequest request){
+    public ProfileResponse create(ProfileRequest request) {
         Profile profile = profileMapper.toProfile(request);
+
         profile = profileRepository.save(profile);
 
         return profileMapper.toProfileResponse(profile);
     }
 
-    public ProfileResponse update(String userId, ProfileRequest request){
-        Profile profile = profileRepository.findByUserId(userId);
-
-        profileMapper.toUpdateProfile(profile,request);
+    public ProfileResponse update(String id, ProfileRequest request) {
+        Profile profile = profileRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCodeConstant.PROFILE_NOT_FOUND));
+        profileMapper.toUpdateProfile(profile, request);
 
         return profileMapper.toProfileResponse(profileRepository.save(profile));
     }
 
-    public void delete(String request){
-        Profile profile = profileRepository.findByUserId(request);
+    public void delete(String request) {
+        Profile profile = profileRepository.findById(request)
+                .orElseThrow(() -> new AppException(ErrorCodeConstant.PROFILE_NOT_FOUND));
         profileRepository.delete(profile);
     }
-
-
 }
