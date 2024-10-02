@@ -1,6 +1,6 @@
-package com.devtucs.profileservice.exception;
+package com.devtucs.identityservice.exception;
 
-import com.devtucs.profileservice.dto.response.ApiResponse;
+import com.devtucs.identityservice.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

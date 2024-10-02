@@ -1,9 +1,9 @@
-package com.devtucs.profileservice.controller;
+package com.devtucs.identityservice.controller;
 
-import com.devtucs.profileservice.dto.request.ProfileRequest;
-import com.devtucs.profileservice.dto.response.ApiResponse;
-import com.devtucs.profileservice.dto.response.ProfileResponse;
-import com.devtucs.profileservice.service.ProfileService;
+import com.devtucs.identityservice.dto.request.ProfileRequest;
+import com.devtucs.identityservice.dto.response.ApiResponse;
+import com.devtucs.identityservice.dto.response.ProfileResponse;
+import com.devtucs.identityservice.service.ProfileService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

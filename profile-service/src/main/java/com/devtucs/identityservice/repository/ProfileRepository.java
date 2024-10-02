@@ -1,7 +1,6 @@
-package com.devtucs.profileservice.repository;
+package com.devtucs.identityservice.repository;
 
-import com.devtucs.profileservice.dto.request.ProfileRequest;
-import com.devtucs.profileservice.entity.Profile;
+import com.devtucs.identityservice.entity.Profile;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.devtucs.profileservice;
+package com.devtucs.identityservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

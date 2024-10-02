@@ -1,12 +1,12 @@
-package com.devtucs.profileservice.service;
+package com.devtucs.identityservice.service;
 
-import com.devtucs.profileservice.dto.request.ProfileRequest;
-import com.devtucs.profileservice.dto.response.ProfileResponse;
-import com.devtucs.profileservice.entity.Profile;
-import com.devtucs.profileservice.exception.AppException;
-import com.devtucs.profileservice.exception.ErrorCodeConstant;
-import com.devtucs.profileservice.mapper.ProfileMapper;
-import com.devtucs.profileservice.repository.ProfileRepository;
+import com.devtucs.identityservice.dto.request.ProfileRequest;
+import com.devtucs.identityservice.dto.response.ProfileResponse;
+import com.devtucs.identityservice.entity.Profile;
+import com.devtucs.identityservice.exception.AppException;
+import com.devtucs.identityservice.exception.ErrorCodeConstant;
+import com.devtucs.identityservice.mapper.ProfileMapper;
+import com.devtucs.identityservice.repository.ProfileRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

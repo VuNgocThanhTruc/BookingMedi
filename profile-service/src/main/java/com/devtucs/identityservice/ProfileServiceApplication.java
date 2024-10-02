@@ -1,4 +1,4 @@
-package com.devtucs.profileservice;
+package com.devtucs.identityservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

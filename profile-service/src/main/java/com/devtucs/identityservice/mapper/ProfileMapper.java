@@ -1,8 +1,8 @@
-package com.devtucs.profileservice.mapper;
+package com.devtucs.identityservice.mapper;
 
-import com.devtucs.profileservice.dto.request.ProfileRequest;
-import com.devtucs.profileservice.dto.response.ProfileResponse;
-import com.devtucs.profileservice.entity.Profile;
+import com.devtucs.identityservice.dto.request.ProfileRequest;
+import com.devtucs.identityservice.dto.response.ProfileResponse;
+import com.devtucs.identityservice.entity.Profile;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 

@@ -1,4 +1,4 @@
-package com.devtucs.profileservice.exception;
+package com.devtucs.identityservice.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
