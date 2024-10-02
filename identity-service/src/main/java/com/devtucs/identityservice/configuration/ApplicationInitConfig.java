@@ -1,7 +1,7 @@
 package com.devtucs.identityservice.configuration;
 
+import com.devtucs.identityservice.entity.Role;
 import com.devtucs.identityservice.entity.User;
-import com.devtucs.identityservice.enums.Role;
 import com.devtucs.identityservice.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
-import java.util.Set;
 
 @Slf4j
 @Configuration
@@ -21,9 +20,10 @@ public class ApplicationInitConfig {
     ApplicationRunner applicationRunner(UserRepository userRepository) {
         return args -> {
             if (userRepository.findByUsername("admin").isEmpty()) {
-                Set<com.devtucs.identityservice.entity.Role> roles = new HashSet<>();
-                com.devtucs.identityservice.entity.Role role = new com.devtucs.identityservice.entity.Role();
-                role.setName(Role.ADMIN.name());
+                Role role  = new Role();
+                role.setName(com.devtucs.identityservice.enums.Role.ADMIN.name());
+
+                HashSet<Role> roles = new HashSet<>();
                 roles.add(role);
 
                 PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -31,7 +31,7 @@ public class ApplicationInitConfig {
                 User user = User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("12345678"))
-//                        .roles(roles)
+                        .roles(roles)
                         .build();
 
                 userRepository.save(user);

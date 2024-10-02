@@ -1,4 +1,4 @@
-package com.devtucs.profileservice.dto.request;
+package com.devtucs.identityservice.dto.request.client;
 
 
 import jakarta.validation.constraints.Email;
