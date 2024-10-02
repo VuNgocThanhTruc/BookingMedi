@@ -24,3 +24,5 @@ spring:
       resourceserver:
         jwt:
           private-key: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+  application:
+    name: identity-service
