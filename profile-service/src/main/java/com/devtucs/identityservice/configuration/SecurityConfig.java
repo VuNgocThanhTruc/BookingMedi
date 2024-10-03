@@ -1,7 +1,5 @@
 package com.devtucs.identityservice.configuration;
 
-import com.devtucs.identityservice.enums.Role;
-import com.nimbusds.jwt.SignedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,29 +8,20 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtException;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-
-import javax.crypto.spec.SecretKeySpec;
-import java.text.ParseException;
 
 @EnableMethodSecurity
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_ENDPOINTS = {"/users",
-            "/auth/token", "/auth/introspect"};
+    private final String[] PUBLIC_ENDPOINTS = {};
 
-    @Value("${spring.security.oauth2.resourceserver.jwt.private-key}")
-    private String privateKey;
-    private CustomeJWTDecoder customeJWTDecoder;
-
+    private final CustomeJWTDecoder customeJWTDecoder;
+    public SecurityConfig(CustomeJWTDecoder customJwtDecoder) {
+        this.customeJWTDecoder = customJwtDecoder;
+    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
