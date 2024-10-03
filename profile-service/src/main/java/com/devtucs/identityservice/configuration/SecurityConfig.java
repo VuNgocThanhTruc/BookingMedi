@@ -19,8 +19,8 @@ public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {};
 
     private final CustomeJWTDecoder customeJWTDecoder;
-    public SecurityConfig(CustomeJWTDecoder customJwtDecoder) {
-        this.customeJWTDecoder = customJwtDecoder;
+    public SecurityConfig(CustomeJWTDecoder customeJWTDecoder) {
+        this.customeJWTDecoder = customeJWTDecoder;
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {

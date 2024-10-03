@@ -42,15 +42,16 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
+        if (isPublicEndpoint(exchange.getRequest()))
+            return chain.filter(exchange);
+
 //        Get token from authorization header
         List<String> authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
         if (CollectionUtils.isEmpty(authHeader))
             return unauthenticated(exchange.getResponse());
         String token = authHeader.getFirst().replace("Bearer ", "");
-        if (isPublicEndpoints(exchange.getRequest()))
-            return chain.filter(exchange);
+
 //        verify token
-        identityService.introspect(token).subscribe(introspectRespApiResponse -> log.info("introspect: {}", introspectRespApiResponse.getResult().isValid()));
         return identityService.introspect(token).flatMap(
                 introspectResponse -> {
                     if (introspectResponse.getResult().isValid())
@@ -66,7 +67,7 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
         return 0;
     }
 
-    private boolean isPublicEndpoints(ServerHttpRequest request) {
+    private boolean isPublicEndpoint(ServerHttpRequest request){
         return Arrays.stream(publicEndpoints)
                 .anyMatch(s -> request.getURI().getPath().matches(apiPrefix + s));
     }

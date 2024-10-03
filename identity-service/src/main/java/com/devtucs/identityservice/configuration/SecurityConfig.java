@@ -29,9 +29,11 @@ public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {"/users",
             "/auth/token", "/auth/introspect"};
 
-    @Value("${spring.security.oauth2.resourceserver.jwt.private-key}")
-    private String privateKey;
-    private CustomeJWTDecoder customeJWTDecoder;
+    private final CustomeJWTDecoder customJwtDecoder;
+
+    public SecurityConfig(CustomeJWTDecoder customJwtDecoder) {
+        this.customJwtDecoder = customJwtDecoder;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -41,7 +43,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(customeJWTDecoder)
+                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(customJwtDecoder)
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint()));
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
