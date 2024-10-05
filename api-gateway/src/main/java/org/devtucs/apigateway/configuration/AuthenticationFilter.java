@@ -33,7 +33,10 @@ import java.util.List;
 public class AuthenticationFilter implements GlobalFilter, Ordered {
     IdentityService identityService;
     ObjectMapper objectMapper;
-    private String[] publicEndpoints = {"/identity/auth/token"};
+    private String[] publicEndpoints = {
+            "/identity/auth/token",
+            "/notification/email/send",
+    };
 
     @Value("${app.api-prefix}")
     @NonFinal

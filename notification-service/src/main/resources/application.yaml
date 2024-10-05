@@ -9,3 +9,5 @@ spring:
   data:
     mongodb:
       uri: mongodb://root:root@localhost:27017/notification-service?authSource=admin
+  brevo:
+    api-key: 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
