@@ -26,8 +26,8 @@ import java.text.ParseException;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_ENDPOINTS = {"/users",
-            "/auth/token", "/auth/introspect"};
+    private final String[] PUBLIC_ENDPOINTS = {
+            "/auth/token", "/auth/introspect", "/users/registration"};
 
     private final CustomeJWTDecoder customJwtDecoder;
 

@@ -25,7 +25,7 @@ import java.util.List;
 public class UserController {
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/registration")
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))
@@ -35,10 +35,6 @@ public class UserController {
     @GetMapping
     ApiResponse<List<UserResponse>> getUsers(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("authentication: {}", authentication);
-
-        log.info("Username: {}", authentication.getName());
-        log.info("getAuthorities: {}", authentication.getAuthorities());
 
         authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
