@@ -1,0 +1,11 @@
+server:
+  port: 8084
+  servlet:
+    context-path: /booking
+
+spring:
+  application:
+    name: booking-service
+  data:
+    mongodb:
+      uri: mongodb://root:root@localhost:27017/booking-service?authSource=admin
