@@ -16,8 +16,6 @@ public class ProfileRequest {
     String userId;
     String fullName;
     LocalDate dob;
-    @Email(message = "INVALID_EMAIL")
-    String email;
     int gender;
     String address;
 }

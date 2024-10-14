@@ -29,8 +29,6 @@ public class Profile {
     String fullName;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     LocalDate dob;
-    String email;
     int gender;
     String address;
-
 }

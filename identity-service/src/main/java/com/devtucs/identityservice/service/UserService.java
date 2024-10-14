@@ -1,5 +1,7 @@
 package com.devtucs.identityservice.service;
 
+import com.devtucs.event.dto.NotificationEvent;
+import com.devtucs.identityservice.dto.request.MailUser;
 import com.devtucs.identityservice.dto.request.UserCreationRequest;
 import com.devtucs.identityservice.dto.request.UserRolesUpdateRequest;
 import com.devtucs.identityservice.dto.request.UserUpdateRequest;
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +29,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +45,7 @@ public class UserService {
     UserMapper userMapper;
     ProfileClient profileClient;
     ProfileMapper profileMapper;
+    KafkaTemplate<String, Object> kafkaTemplate; //k,v
 
     public UserResponse createUser(UserCreationRequest request) {
 
@@ -67,6 +72,34 @@ public class UserService {
         profileRequest.setUserId(user.getId());
 
         profileClient.createProfile(profileRequest);
+
+//      registration successfully send message with kafka
+        List<MailUser> recipients = new ArrayList<>();
+        recipients.add(MailUser.builder()
+                .email(request.getEmail())
+                .name(request.getUsername())
+                .build());
+
+        NotificationEvent notificationEvent = NotificationEvent.builder()
+                .channel("EMAIL")
+                .recipients(recipients)
+                .subject("ACCEPT REGISTRATION WITH BOOKINGMEDI")
+                .body("<h2>Welcome to BookingMedi</h2>" +
+                        "<p>Dear " + request.getUsername() + ",</p>" +
+                        "<p></p>" +
+                        "<p>Thank you for completing your registration with BookingMedi.</p>" +
+                        "<p></p>" +
+                        "<p>This email serves as a confirmation that your account is activated and that you are officially a part of the BookingMedi. Enjoy!</p>" +
+                        "<p></p>" +
+                        "<p>If you have any questions or suggestions, please don't hesitate to reach out at bookingmedi@gmail.com to see how we can meet your needs. We'd love to hear your feedback!</p>" +
+                        "<p></p>" +
+                        "<p>Best,</p>" +
+                        "<p></p>" +
+                        "<p>BookingMedi.</p>")
+
+                .build();
+
+        kafkaTemplate.send("notification-delivery", notificationEvent);
 
         return userMapper.toUserResponse(user);
     }

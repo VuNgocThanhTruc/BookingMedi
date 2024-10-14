@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProfileController {
@@ -26,7 +26,7 @@ public class ProfileController {
                 .build();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ApiResponse<ProfileResponse> create(@RequestBody ProfileRequest request){
         return ApiResponse.<ProfileResponse>builder()
                 .result(profileService.create(request))

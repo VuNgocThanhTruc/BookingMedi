@@ -1,0 +1,6 @@
+# Notification service 
+
+### RUN command database MongoDB
+`docker run -d --name mongodb -p 27017:27017 -e MONGODB_ROOT_USER=root -e MONGODB_ROOT_PASSWORD=root bitnami/mongodb:latest`
+
+Access GUI Neo4j username/password: **neo4j/neo4j**

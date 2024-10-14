@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_ENDPOINTS = {};
+    private final String[] PUBLIC_ENDPOINTS = {"/users/create"};
 
     private final CustomeJWTDecoder customeJWTDecoder;
     public SecurityConfig(CustomeJWTDecoder customeJWTDecoder) {
